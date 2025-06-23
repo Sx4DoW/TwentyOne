@@ -1,0 +1,10 @@
+services:
+  twentyone:
+    build:
+      context: .
+    container_name: twentyone_server
+    ports:
+      - 8000:8000
+    volumes:
+      - ./app:/app/app
+    restart: always
