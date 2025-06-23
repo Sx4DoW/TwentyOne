@@ -12,7 +12,6 @@ room_manager = RoomManager()
 
 # Mount static folder (e.g., CSS, JS)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
-
 # Set template folder
 templates = Jinja2Templates(directory="app/templates")
 
@@ -29,8 +28,12 @@ async def post_create_room():
     room = await room_manager.create_room()
     return {"message": f"Room {room.room_id} created"}
 
+@app.get("/join-room")
+async def get_join_room(request: Request):
+    return templates.TemplateResponse("join-room.html", {"request": request})
+
 @app.post("/join-room")
-async def join_room(room_id: str = Form(...), name: str = Form(...)):
+async def jpost_join_room(room_id: str = Form(...), name: str = Form(...)):
     room = room_manager.get_room(room_id)
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
@@ -39,4 +42,8 @@ async def join_room(room_id: str = Form(...), name: str = Form(...)):
         room.add_player(player.player_id)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    return {"message": f"Player {player_id} joined room {room_id}"}
+    return {"message": f"Player {player.name} joined room {room_id}"}
+
+@app.get("/interface")
+async def get_interface(request: Request):
+    return templates.TemplateResponse("interface.html", {"request": request})

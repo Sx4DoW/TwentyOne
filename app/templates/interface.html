@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Twenty-one</title>
+        <link rel="stylesheet" href="/static/style.css">
+        <script src="/static/script.js"></script>
+    </head>
+    <body>
+        <div class="title">
+            <h1>Twenty-one</h1>
+        </div>
+        <div class="container">
+            <button class="collapsible">Conversioni</button>
+            <div class="content">
+                <table class="tab">
+                    <tbody>
+                        <tr>
+                            <td>♣️ ➡️ 🦯</td>
+                        </tr>
+                        <tr>
+                            <td>♥️ ➡️ 🏆</td>
+                        </tr>
+                        <tr>
+                            <td>♦️ ➡️ 🪙</td>
+                        </tr>
+                        <tr>
+                            <td>♠️ ➡️ ⚔️</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bet-box">
+                <h2 id="betDisplay">Current Bet: </h2>
+
+                <div class="bet-controls">
+                    <button onclick="changeBet('currentBet', -1)">-</button>
+                    <input type="range" id="currentBet" value="1" min="0" max="16" disabled="true">
+                    <button onclick="changeBet('currentBet', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="endButton" onclick="showWinnerSelect()">
+            End it here!
+        </button>
+
+        <div id="winnerSelect">
+            <p>Chi ha vinto?</p>
+            <label>
+                <input type="radio" name="winner" value="1">
+                    Giocatore 1
+            </label>
+            <label>
+                <input type="radio" name="winner" value="2">
+                Giocatore 2
+            </label>
+            <button onclick="moveSaw()">Conferma</button>
+        </div>
+
+        <div class="line-container">
+          <div class="saw-wrapper">
+              <img id="saw" src="static/assets/saw_blade.svg" alt="Saw Blade">
+          </div>
+          <div class="line"></div>
+          <div class="ticks">
+            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+            <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+            <span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
+            <span>15</span><span>16</span>
+          </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const collapsible = document.querySelector('.collapsible');
+                const content = document.querySelector('.content');
+
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    content.classList.toggle('show');
+                });
+            });
+        </script>
+        <script>
+          const betValue = document.getElementById('currentBet').value;
+          document.getElementById('betDisplay').textContent = "Current Bet: " + betValue;
+        </script>
+        <script>
+
+        </script>
+    </body>
+</html>
