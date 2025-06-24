@@ -6,9 +6,12 @@ let roundBet;
 let tickSpacing;
 let currentSawIndex;
 
+let fog;
+
 let lastTimestamp = null;
 let left_timer = 30;
 let right_timer = 30;
+let timeLeft = 30 * 1000;
 let activePlayer = startingPlayer;
 let interval;
 let timerRunning = false;
@@ -17,7 +20,15 @@ window.onload = function() {
   tickSpacing = getTickSpacing();
   showLogoSplash();
   initGame();
-  startTurn(player);
+  //startTurn(startingPlayer);
+}
+
+function getLeftTimer(){
+  return document.getElementById("timer-left");
+}
+
+function getRightTimer(){
+  return document.getElementById("timer-right");
 }
 
 function initGame(){
@@ -25,6 +36,7 @@ function initGame(){
   roundBet = 1;
   left_timer = 30;
   right_timer = 30;
+  fog = document.querySelector('.fog-overlay');
   setBet(roundBet);
   renderSaw();
 }
@@ -49,25 +61,36 @@ function format(ms) {
 }
 
 function updateTimers() {
-  const leftDisplay = document.getElementById("timer-left");
-  const rightDisplay = document.getElementById("timer-right");
-
   if (activePlayer === "left") {
-    leftDisplay.textContent = format(timeLeft);
-    rightDisplay.textContent = right_timer + ":00";
+    getLeftTimer().textContent = format(timeLeft);
+    getRightTimer().textContent = right_timer + ":00";
   } else {
-    rightDisplay.textContent = format(timeLeft);
-    leftDisplay.textContent = left_timer + ":00";
+    getRightTimer().textContent = format(timeLeft);
+    getLeftTimer().textContent = left_timer + ":00";
   }
 }
 
-function startTurn(player) {
+function clearFog() {
+  fog.style.opacity = '0';
+}
+
+function showFogFor(player) {
+  fog.classList.remove('fog-left', 'fog-right');
+  fog.classList.add(player === 'left' ? 'fog-left' : 'fog-right');
+  fog.style.opacity = '1'; // trigger fade-in over 30s
+}
+function startTurn(player, resume = false) {
   cancelAnimationFrame(interval);
   activePlayer = player;
+  getLeftTimer().style.color = "white";
+  getRightTimer().style.color = "white";
+  //showFogFor(activePlayer);
 
   const start = performance.now();
   lastTimestamp = start;
-  timeLeft = player === "left" ? left_timer * 1000 : right_timer * 1000;
+  if (!resume) {
+    timeLeft = player === "left" ? left_timer * 1000 : right_timer * 1000;
+  }
   interval = requestAnimationFrame(function tick(now) {
     const elapsed = now - lastTimestamp;
     lastTimestamp = now;
@@ -76,10 +99,16 @@ function startTurn(player) {
     updateTimers();
 
     if (timeLeft <=10_000){
-      document.body.classList.replace("flicker-chill", "flicker-violent");
+      if(activePlayer === "left"){
+        getLeftTimer().style.color = "red";
+      }
+      else{
+        getRightTimer().style.color = "red";
+      }
+      //document.body.classList.replace("flicker-chill", "flicker-violent");
     }
     else{
-      document.body.classList.replace("flicker-violent", "flicker-chill");
+      //document.body.classList.replace("flicker-violent", "flicker-chill");
     }
 
     if (timeLeft > 0) {
@@ -98,29 +127,29 @@ function startTurn(player) {
 }
 
 function resetTimers(){
-  const leftDisplay = document.getElementById("timer-left");
-  const rightDisplay = document.getElementById("timer-right");
-
   cancelAnimationFrame(interval);
+  //clearFog();
   timerRunning = false;
-  leftDisplay.textContent = left_timer + ":00";
-  rightDisplay.textContent = right_timer + ":00";
+  getLeftTimer().textContent = left_timer + ":00";
+  getRightTimer().textContent = right_timer + ":00";
+  getLeftTimer().style.color = "white";
+  getRightTimer().style.color = "white";
   timeLeft = startingPlayer === "left" ? left_timer * 1000 : right_timer * 1000; // Reset for next session
   document.body.classList.replace("flicker-violent", "flicker-chill");
 }
 
 document.addEventListener("keydown", function (e) {
-  if (e.code === "Enter") {
+  if (e.code === "Space") {
     e.preventDefault();
     if (timerRunning) {
       cancelAnimationFrame(interval);
       timerRunning = false;
     } else {
-      startTurn(activePlayer, true); // resume without resetting
+      startTurn(startingPlayer, true); // resume without resetting
     }
   }
 
-  if (e.code === "Space" && timerRunning) {
+  if (e.code === "Enter" && timerRunning) {
     e.preventDefault();
     const next = activePlayer === "left" ? "right" : "left";
     timeLeft = next === "right" ? right_timer * 1000 : left_timer * 1000; // reset for next player
@@ -137,26 +166,24 @@ function getBet(){
   return parseInt(currentBet) || 0;
 }
 function setBet(x){
-  const leftDisplay = document.getElementById("timer-left");
-  const rightDisplay = document.getElementById("timer-right");
 
   document.getElementById("currentBet").value = x;
   document.getElementById('betDisplay').textContent = "Current Bet: " + x;
   if(currentSawIndex + getBet() >= maxbet){
     right_timer = 45;
-    rightDisplay.textContent = right_timer + ":00";
+    getRightTimer().textContent = right_timer + ":00";
   }
   else{
     right_timer = 30;
-    rightDisplay.textContent = right_timer + ":00";
+    getRightTimer().textContent = right_timer + ":00";
   }
   if(currentSawIndex - getBet() <= 0){
     left_timer = 45;
-    leftDisplay.textContent = left_timer + ":00";
+    getLeftTimer().textContent = left_timer + ":00";
   }
   else{
     left_timer = 30;
-    leftDisplay.textContent = left_timer + ":00";
+    getLeftTimer().textContent = left_timer + ":00";
   }
 }
 

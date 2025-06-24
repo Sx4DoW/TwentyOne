@@ -133,6 +133,32 @@ Death Splash Screen
 }
 
 /*
+Start of Fog Overlay
+-------------------------
+*/
+.fog-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 30s linear;
+}
+
+/* Focus spotlight on LEFT timer */
+.fog-left {
+  background:
+    radial-gradient(circle at 15% center, rgba(0,0,0,0) 80px, rgba(0,0,0,0.8) 200px),
+    rgba(0,0,0,1);
+}
+
+/* Focus spotlight on RIGHT timer */
+.fog-right {
+  background:
+    radial-gradient(circle at 85% center, rgba(0,0,0,0) 80px, rgba(0,0,0,0.8) 200px),
+    rgba(0,0,0,1);
+}
+/*
 Start of Containers
 -------------------------
 */
@@ -540,6 +566,6 @@ button:hover {
 }
 
 .spin {
-  animation: spin 0.2s linear infinite; /* fast spin */
+  animation: spin 0.4s linear infinite; /* fast spin */
   transform-origin: center center;
 }
