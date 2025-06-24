@@ -188,7 +188,7 @@ Start of Containers
 .line-container {
     width: 90%;
     margin: 0 auto;
-    margin-top: 300px;
+    margin-top: 250px;
     /*transform: scale(1.8);*/
 }
 
@@ -527,7 +527,7 @@ button:hover {
 
 .ticks span {
     color: #aa2222;
-    font-size: 14px;
+    font-size: 30px;
 }
 
 .saw-wrapper {
