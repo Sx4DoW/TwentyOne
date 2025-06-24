@@ -12,79 +12,38 @@
             <img src="/static/assets/logo.png" alt="TWENTYONE">
         </div>
         <div class="container">
-            <button class="collapsible">Conversioni</button>
-            <div class="content">
-                <table class="tab">
-                    <tbody>
-                        <tr>
-                            <td>♣️ ➡️ 🦯</td>
-                        </tr>
-                        <tr>
-                            <td>♥️ ➡️ 🏆</td>
-                        </tr>
-                        <tr>
-                            <td>♦️ ➡️ 🪙</td>
-                        </tr>
-                        <tr>
-                            <td>♠️ ➡️ ⚔️</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="bet-box">
-                <h2 id="betDisplay">Current Bet: </h2>
-                <div class="bet-controls">
-                    <button onclick="changeBet(-1)">-</button>
-                    <input type="range" id="currentBet" value="1" min="0" max="16" disabled="true">
-                    <button onclick="changeBet(1)">+</button>
+            <form method="POST" action="/game">
+                <div class="buttonRow">
+                    <input type="text" id="player1" placeholder="Enter player 1 name">
+                    <label class="switch">
+                        <input type="checkbox" id="switch1" value="1" checked>
+                        <span class="slider"></span>
+                    </label>
                 </div>
-            </div>
-            <div id="winnerSelect" class="bet-box">
-                <div id="endButton">
-                    <button onclick="showWinnerSelect(); switchView('players')">
-                        End it here!
-                    </button>
+                <div class="buttonRow">
+                    <input type="text" id="player2" placeholder="Enter player 2 name">
+                    <label class="switch">
+                        <input type="checkbox" id="switch2" value="-1">
+                        <span class="slider"></span>
+                    </label>
                 </div>
-                <div id="players" class="player-buttons" style="display:none;">
-                    <h1>Who won?</h1>
-                    <div class="buttonRow">
-                        <button onclick="moveSaw('1'); switchView('endButton')">Player 1</button>
-                        <button onclick="moveSaw('-1'); switchView('endButton')">Player 2</button>
-                    </div>
-                </div>
-            </div>
+                <input type="submit" value="Start Game">
+            </form>
         </div>
-
-        <div class="line-container">
-            <div id="saw-wrapper" class="saw-wrapper">
-                <img id="saw" class="spin" src="static/assets/saw.svg" alt="Saw Blade">
-                <img id="axle" src="static/assets/axle.svg" alt="Axle">
-            </div>
-            <div class="line"></div>
-            <div class="ticks">
-                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
-                <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
-                <span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
-                <span>15</span><span>16</span>
-            </div>
-        </div>
-        <div id="death-splash" class="splash hidden">
-          <div class="splash-content">
-            <span id="death-message">PLAYER X DIED</span>
-            <button id="play-again" onclick="window.location.reload()">Play Again</button>
-          </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const collapsible = document.querySelector('.collapsible');
-                const content = document.querySelector('.content');
-
-                collapsible.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    content.classList.toggle('show');
-                });
-            });
-        </script>
     </body>
 </html>
+
+<script>
+const switch1 = document.getElementById("switch1");
+const switch2 = document.getElementById("switch2");
+
+switch1.addEventListener("change", () => {
+  if (switch1.checked) switch2.checked = false;
+  if (!switch1.checked) switch2.checked = true;
+});
+
+switch2.addEventListener("change", () => {
+  if (switch2.checked) switch1.checked = false;
+  if (!switch2.checked) switch1.checked = true;
+});
+</script>

@@ -48,6 +48,10 @@ async def jpost_join_room(room_id: str = Form(...), name: str = Form(...)):
 async def get_interface(request: Request):
     return templates.TemplateResponse("interface.html", {"request": request})
 
-@app.get("/font")
-async def get_font(request: Request):
-    return templates.TemplateResponse("font-preview.html", {"request":request})
+@app.get("/game")
+async def get_game(request: Request):
+    return templates.TemplateResponse("game.html", {"request": request})
+
+@app.post("/game")
+async def post_interface(request: Request):
+    return templates.TemplateResponse("game.html", {"request": request})

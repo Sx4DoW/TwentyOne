@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Twenty-one</title>
+        <link rel="stylesheet" href="/static/style.css">
+        <script src="/static/script.js"></script>
+    </head>
+    <body>
+        <div id="logo-splash" class="splash hidden">
+          <div class="splash-content">
+            <img src="/static/assets/logo.png" alt="TWENTYONE" id="game-logo">
+            <p class="splash-hint">Click anywhere to continue</p>
+          </div>
+        </div>
+        <div class="container horizontal">
+            <div class="container vertical" id="timer">
+                <h1>Player 1</h1>
+                <div id="timer-left" class="timer-box">30:00</div>
+            </div>
+            <div class="container vertical">
+                <button class="collapsible">Conversioni</button>
+                <div class="content">
+                    <table class="tab">
+                        <tbody>
+                            <tr>
+                                <td>♣️ ➡️ 🦯</td>
+                            </tr>
+                            <tr>
+                                <td>♥️ ➡️ 🏆</td>
+                            </tr>
+                            <tr>
+                                <td>♦️ ➡️ 🪙</td>
+                            </tr>
+                            <tr>
+                                <td>♠️ ➡️ ⚔️</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bet-box">
+                    <h2 id="betDisplay">Current Bet: </h2>
+                    <div class="bet-controls">
+                        <button onclick="changeBet(-1)">-</button>
+                        <input type="range" id="currentBet" value="1" min="0" max="16" disabled="true">
+                        <button onclick="changeBet(1)">+</button>
+                    </div>
+                </div>
+                <div id="winnerSelect" class="bet-box">
+                    <div id="endButton">
+                        <button onclick="showWinnerSelect(); switchView('players')">
+                            End it here!
+                        </button>
+                    </div>
+                    <div id="players" class="player-buttons" style="display:none;">
+                        <h1>Who won?</h1>
+                        <div class="buttonRow">
+                            <button onclick="moveSaw('1'); switchView('endButton')">Player 1</button>
+                            <button onclick="moveSaw('-1'); switchView('endButton')">Player 2</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container vertical" id="timer">
+                <h1>Player 2</h1>
+                <div id="timer-right" class="timer-box">30:00</div>
+            </div>
+        </div>
+
+        <div class="line-container">
+            <div id="saw-wrapper" class="saw-wrapper">
+                <img id="saw" class="spin" src="static/assets/saw.svg" alt="Saw Blade">
+                <img id="axle" src="static/assets/axle.svg" alt="Axle">
+            </div>
+            <div class="line"></div>
+            <div class="ticks">
+                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+                <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                <span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
+                <span>15</span><span>16</span>
+            </div>
+        </div>
+        <div id="death-splash" class="splash hidden">
+          <div class="splash-content">
+            <span id="death-message">PLAYER X DIED</span>
+            <button id="play-again" onclick="initGame(); dismissSplashById('death-splash');">Play Again</button>
+          </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const collapsible = document.querySelector('.collapsible');
+                const content = document.querySelector('.content');
+
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    content.classList.toggle('show');
+                });
+            });
+        </script>
+    </body>
+</html>
