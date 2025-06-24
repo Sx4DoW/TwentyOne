@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Horror Font Preview</title>
+  <style>
+    @font-face {
+      font-family: '28DaysLater';
+      src: url('fonts/28dayslater.ttf') format('truetype'); /* Make sure this path is correct */
+    }
+
+    body {
+      background: radial-gradient(ellipse at center, #1a1a1a 0%, #000000 100%);
+      color: #e0e0e0;
+      font-family: '28DaysLater', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 5rem;
+      text-shadow: 0 0 10px #ff0000, 0 0 20px #550000;
+      animation: pulse 2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 1; }
+      to { transform: scale(1.05); opacity: 0.9; }
+    }
+  </style>
+</head>
+<body>
+  <h1>TWENTYONE</h1>
+</body>
+</html>
