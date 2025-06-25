@@ -363,8 +363,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function bless(){
-  decreaseBet();
-  decreaseBet();
+  decreaseRoundBet();
+  decreaseRoundBet();
   moveSawBy(0);
   switchView('endButton');
 }
