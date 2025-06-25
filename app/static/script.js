@@ -189,10 +189,14 @@ function getBet(){
   let currentBet = document.getElementById("currentBet").value;
   return parseInt(currentBet) || 0;
 }
+
 function setBet(x){
 
   document.getElementById("currentBet").value = x;
   document.getElementById('betDisplay').textContent = "Current Bet: " + x;
+}
+
+function isDying(){
   if (currentSawIndex + getBet() >= maxbet) {
     right_timer = 45;
     if (getRightTimer().textContent === "30:00") {
@@ -287,6 +291,7 @@ function decreaseRoundBet() {
 
 function setSaw(index) {
   currentSawIndex = Math.max(0, Math.min(maxbet, index));
+  isDying();
   renderSaw();
 }
 
@@ -308,6 +313,7 @@ function moveSawBy(directionStr) {
   document.getElementById("players").style.display = "none";
   document.getElementById("endButton").style.display = "flex";
 
+  isDying();
   renderSaw();
   increaseRoundBet();
   setBet(roundBet);
