@@ -1,1 +1,1 @@
-git pull -f
+git pull -rebase
