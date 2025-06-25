@@ -120,9 +120,9 @@ function startTurn(player, resume = false) {
       interval = requestAnimationFrame(tick);
     } else {
       if (activePlayer === "left") {
-        moveSawBy("-1");
-      } else {
         moveSawBy("1");
+      } else {
+        moveSawBy("-1");
       }
       resetTimers();
     }
@@ -155,6 +155,25 @@ document.addEventListener("keydown", function (e) {
   }
 
   if (e.code === "Space" && timerRunning) {
+    e.preventDefault();
+    const next = activePlayer === "left" ? "right" : "left";
+    timeLeft = next === "right" ? right_timer * 1000 : left_timer * 1000; // reset for next player
+    startTurn(next);
+  }
+});
+
+document.addEventListener('mousedown', function(event) {
+   if (e.button === 1) { //wheel down
+    e.preventDefault();
+    if (timerRunning) {
+      cancelAnimationFrame(interval);
+      timerRunning = false;
+    } else {
+      startTurn(activePlayer, true); // resume without resetting
+    }
+  }
+
+  if (e.button === 4 && timerRunning) {
     e.preventDefault();
     const next = activePlayer === "left" ? "right" : "left";
     timeLeft = next === "right" ? right_timer * 1000 : left_timer * 1000; // reset for next player
@@ -272,9 +291,20 @@ function setSaw(index) {
 }
 
 function moveSawBy(directionStr) {
-  const direction = directionStr === "1" ? 1 : -1;
+  let direction;
+  switch(directionStr){
+    case "-1":
+      direction = -1;
+      break;
+    case "0":
+      direction = 0;
+      break;
+    case "1":
+      direction = 1;
+      break;
+  }
 
-  setSaw(currentSawIndex + direction);
+  setSaw(currentSawIndex + (getBet() * direction));
   document.getElementById("players").style.display = "none";
   document.getElementById("endButton").style.display = "flex";
 
@@ -325,3 +355,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+function bless(){
+  decreaseBet();
+  decreaseBet();
+  moveSawBy(0);
+  switchView('endButton');
+}
