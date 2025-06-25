@@ -231,6 +231,7 @@ function changeBet(delta) {
 
 function updateBet() {
   document.getElementById('betDisplay').textContent = "Current Bet: " + getBet();
+  isDying();
 }
 
 function getSaw(){
