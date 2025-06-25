@@ -23,6 +23,21 @@ window.onload = function() {
   //startTurn(startingPlayer);
 }
 
+function flickerLights(condition) {
+  if (condition) {
+    if (!document.body.classList.contains("flicker-violent")) {
+      document.body.classList.remove("flicker-chill");
+      document.body.classList.add("flicker-violent");
+    }
+  } else {
+    if (!document.body.classList.contains("flicker-chill")) {
+      document.body.classList.remove("flicker-violent");
+      document.body.classList.add("flicker-chill");
+    }
+  }
+}
+
+
 function getLeftTimer(){
   return document.getElementById("timer-left");
 }
@@ -108,12 +123,10 @@ function startTurn(player, resume = false) {
       else{
         getRightTimer().style.color = "red";
       }
-      //document.body.classList.replace("flicker-chill", "flicker-violent");
     }
     else{
       getLeftTimer().style.color = "white";
       getRightTimer().style.color = "white";
-      //document.body.classList.replace("flicker-violent", "flicker-chill");
     }
 
     if (timeLeft > 0) {
