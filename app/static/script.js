@@ -162,7 +162,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-document.addEventListener('mousedown', function(event) {
+document.addEventListener('mousedown', function(e) {
    if (e.button === 1) { //wheel down
     e.preventDefault();
     if (timerRunning) {
