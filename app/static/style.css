@@ -1,5 +1,6 @@
 html, body{
     overscroll-behavior: none;
+    overflow: hidden;
 }
 
 body {
@@ -190,6 +191,7 @@ Start of Containers
     margin: 0 auto;
     margin-top: 250px;
     /*transform: scale(1.8);*/
+    position: relative;
 }
 
 /*
@@ -219,7 +221,7 @@ Start of timers
 
 .timer-box:hover {
   transform: scale(1.05);     /* Optional: adds a little pulse on hover */
-},
+}
 
 form {
     padding: 10px;
@@ -301,7 +303,7 @@ input[type="submit"]:hover {
 }
 
 .title {
-    padding: 10px
+    padding: 10px;
     color: whitesmoke;
     font-size: 2.5em;
     text-align: center;
@@ -422,7 +424,6 @@ button:hover {
     background-color: #2a2a2a;
     border-radius: 8px;
     border: 1px solid #550000;
-    height: 150px;
 }
 
 .bet-box h1 {
@@ -448,35 +449,7 @@ button:hover {
     align-items: center;
     justify-content: center;
     gap: 10px;
-}
-
-.wrapper-box{
-    margin-top: 50px;;
-    background-color: #2a2a2a;
-    border-radius: 8px;
-    border: 1px solid #550000;
-}
-
-.player-buttons {
-    display: flex;
-    margin: 15px 20px;
-    flex-direction: column;
-}
-
-.player-buttons h1 {
-    color: #aa2222;
-    margin-top: 0px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.player-buttons button {
-    cursor: pointer;
-}
-
-.buttonRow{
-    display: flex;
-    justify-content: space-between;
+    padding: 0px 10px;
 }
 
 .bet-controls input {
@@ -490,6 +463,35 @@ button:hover {
     font-size: 1.1em;
 }
 
+.wrapper-box{
+    margin-top: 50px;;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    border: 1px solid #550000;
+}
+
+.player-buttons {
+    display: flex;
+    margin: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.player-buttons h1 {
+    color: #aa2222;
+    text-align: center;
+}
+
+.player-buttons button {
+    cursor: pointer;
+}
+
+.buttonRow{
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+}
+
 #endButton {
     display: flex;
     margin: 30px auto;
@@ -498,7 +500,16 @@ button:hover {
     justify-content: center;
 }
 
+#blessButton{
+    background-color: royalblue;
+    margin-top: 10px;
+    box-shadow: 0 0 10px midnightblue;
+}
 
+#blessButton:hover{
+    background-color: #007bff;
+    color: white;
+}
 
 .view {
   position: absolute;
@@ -528,27 +539,27 @@ button:hover {
 .ticks span {
     color: #aa2222;
     font-size: 30px;
+    cursor: pointer;
 }
 
+/*
+Start of Saw
+*/
+
 .saw-wrapper {
-  position: relative;
-  /*left: calc((90% / 17) * 8); /* position over 8 */
+  position: relative; /* Important for transform-based animation */
   width: calc(1000px / 17);
   display: flex;
   justify-content: center;
-  pointer-events: none; /* optional, makes it non-interactive */
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.25, 1.5, 0.5, 1); /* smooth slide */
   transform: scale(2.75);
 }
 
-.saw-wrapper img{
-    position: absolute;
-    top: -70px;
-    width: 100%; /* adjust as needed */
-    transition: left 0.5s ease;
-}
-
-#saw-wrapper{
-    transition: transform 0.5s ease;
+.saw-wrapper img {
+  position: absolute;
+  top: -70px;
+  width: 100%;
 }
 
 #saw {
@@ -561,8 +572,8 @@ button:hover {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
 .spin {

@@ -74,6 +74,11 @@ function clearFog() {
   fog.style.opacity = '0';
 }
 
+function stopTimer() {
+  cancelAnimationFrame(interval);
+  timerRunning = false;
+}
+
 function showFogFor(player) {
   fog.classList.remove('fog-left', 'fog-right');
   fog.classList.add(player === 'left' ? 'fog-left' : 'fog-right');
@@ -82,8 +87,6 @@ function showFogFor(player) {
 function startTurn(player, resume = false) {
   cancelAnimationFrame(interval);
   activePlayer = player;
-  getLeftTimer().style.color = "white";
-  getRightTimer().style.color = "white";
   //showFogFor(activePlayer);
 
   const start = performance.now();
@@ -108,6 +111,8 @@ function startTurn(player, resume = false) {
       //document.body.classList.replace("flicker-chill", "flicker-violent");
     }
     else{
+      getLeftTimer().style.color = "white";
+      getRightTimer().style.color = "white";
       //document.body.classList.replace("flicker-violent", "flicker-chill");
     }
 
@@ -115,9 +120,9 @@ function startTurn(player, resume = false) {
       interval = requestAnimationFrame(tick);
     } else {
       if (activePlayer === "left") {
-        moveSaw("-1");
+        moveSawBy("-1");
       } else {
-        moveSaw("1");
+        moveSawBy("1");
       }
       resetTimers();
     }
@@ -139,17 +144,17 @@ function resetTimers(){
 }
 
 document.addEventListener("keydown", function (e) {
-  if (e.code === "Space") {
+  if (e.code === "Enter") {
     e.preventDefault();
     if (timerRunning) {
       cancelAnimationFrame(interval);
       timerRunning = false;
     } else {
-      startTurn(startingPlayer, true); // resume without resetting
+      startTurn(activePlayer, true); // resume without resetting
     }
   }
 
-  if (e.code === "Enter" && timerRunning) {
+  if (e.code === "Space" && timerRunning) {
     e.preventDefault();
     const next = activePlayer === "left" ? "right" : "left";
     timeLeft = next === "right" ? right_timer * 1000 : left_timer * 1000; // reset for next player
@@ -169,21 +174,29 @@ function setBet(x){
 
   document.getElementById("currentBet").value = x;
   document.getElementById('betDisplay').textContent = "Current Bet: " + x;
-  if(currentSawIndex + getBet() >= maxbet){
+  if (currentSawIndex + getBet() >= maxbet) {
     right_timer = 45;
-    getRightTimer().textContent = right_timer + ":00";
+    if (getRightTimer().textContent === "30:00") {
+      getRightTimer().textContent = right_timer + ":00";
+    }
   }
   else{
     right_timer = 30;
-    getRightTimer().textContent = right_timer + ":00";
+    if (getRightTimer().textContent === "45:00"){
+      getRightTimer().textContent = right_timer + ":00";
+    }
   }
   if(currentSawIndex - getBet() <= 0){
     left_timer = 45;
-    getLeftTimer().textContent = left_timer + ":00";
+    if(getLeftTimer().textContent === "30:00"){
+      getLeftTimer().textContent = left_timer + ":00";
+    }
   }
   else{
     left_timer = 30;
-    getLeftTimer().textContent = left_timer + ":00";
+    if(getLeftTimer().textContent === "45:00"){
+      getLeftTimer().textContent = left_timer + ":00";
+    }
   }
 }
 
@@ -192,6 +205,7 @@ function changeBet(delta) {
   setBet(updatedBet);
   updateBet();
 }
+
 function updateBet() {
   document.getElementById('betDisplay').textContent = "Current Bet: " + getBet();
 }
@@ -244,16 +258,28 @@ function showDeath(playerNumber) {
   initGame();
 }
 
-function moveSaw(directionStr) {
+function increaseRoundBet() {
+  roundBet = Math.min(maxbet, roundBet + 1);
+}
+
+function decreaseRoundBet() {
+  roundBet = Math.max(0, roundBet - 1);
+}
+
+function setSaw(index) {
+  currentSawIndex = Math.max(0, Math.min(maxbet, index));
+  renderSaw();
+}
+
+function moveSawBy(directionStr) {
   const direction = directionStr === "1" ? 1 : -1;
 
-  currentSawIndex = Math.max(0, Math.min(maxbet, currentSawIndex + direction * getBet()));
-
+  setSaw(currentSawIndex + direction);
   document.getElementById("players").style.display = "none";
   document.getElementById("endButton").style.display = "flex";
 
   renderSaw();
-  roundBet++;
+  increaseRoundBet();
   setBet(roundBet);
   if(currentSawIndex === 0 ){
     showDeath(1);
@@ -288,4 +314,14 @@ document.addEventListener("keydown", function (event) {
   else if (event.key === "ArrowRight") {
     changeBet(1);
   }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#numbers span").forEach(span => {
+    span.addEventListener("click", () => {
+      let number = parseInt(span.textContent);
+      console.log("clicked span n: ", number);
+      setSaw(number);
+    });
+  });
 });
