@@ -123,12 +123,12 @@ function startTurn(player, resume = false) {
       else{
         getRightTimer().style.color = "red";
       }
-      flickerLights(true);
+      //flickerLights(true);
     }
     else{
       getLeftTimer().style.color = "white";
       getRightTimer().style.color = "white";
-      flickerLights(false);
+      //flickerLights(false);
     }
 
     if (timeLeft > 0) {
