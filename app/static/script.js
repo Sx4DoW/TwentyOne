@@ -123,10 +123,12 @@ function startTurn(player, resume = false) {
       else{
         getRightTimer().style.color = "red";
       }
+      flickerLights(true);
     }
     else{
       getLeftTimer().style.color = "white";
       getRightTimer().style.color = "white";
+      flickerLights(false);
     }
 
     if (timeLeft > 0) {
@@ -305,8 +307,18 @@ function decreaseRoundBet() {
 
 function setSaw(index) {
   currentSawIndex = Math.max(0, Math.min(maxbet, index));
+  checkDeath();
   isDying();
   renderSaw();
+}
+
+function checkDeath(){
+  if(currentSawIndex === 0 ){
+    showDeath(1);
+  }
+  if(currentSawIndex === 16){
+    showDeath(2);
+  }
 }
 
 function moveSawBy(directionStr) {
@@ -331,12 +343,6 @@ function moveSawBy(directionStr) {
   renderSaw();
   increaseRoundBet();
   setBet(roundBet);
-  if(currentSawIndex === 0 ){
-    showDeath(1);
-  }
-  if(currentSawIndex === 16){
-    showDeath(2);
-  }
   resetTimers();
 }
 

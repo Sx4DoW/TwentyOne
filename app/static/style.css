@@ -29,17 +29,33 @@ Start Lights flickering
 
 @keyframes flicker-violent {
   0%   { filter: brightness(1); opacity: 1; }
-  5%   { filter: brightness(0.4); opacity: 0.6; }
-  15%  { filter: brightness(1.3); }
-  25%  { filter: brightness(0.3); opacity: 0.3; }
-  50%  { filter: brightness(1.5); opacity: 1; }
-  70%  { filter: brightness(0.2); opacity: 0.1; }
+  10%  { filter: brightness(0.8); opacity: 0.85; }
+  20%  { filter: brightness(1.1); opacity: 0.95; }
+  35%  { filter: brightness(0.9); opacity: 0.8; }
+  50%  { filter: brightness(1.2); opacity: 1; }
+  70%  { filter: brightness(0.85); opacity: 0.9; }
   100% { filter: brightness(1); opacity: 1; }
 }
 
-.flicker-violent {
-  animation: flicker-violent 1.5s infinite;
+@keyframes flicker-dying {
+  0%   { filter: brightness(1); opacity: 1; }
+  5%   { filter: brightness(0.9); opacity: 0.95; }
+  10%  { filter: brightness(1.1); opacity: 0.9; }
+  20%  { filter: brightness(0.8); opacity: 0.7; }
+  30%  { filter: brightness(1.0); opacity: 0.85; }
+  40%  { filter: brightness(0.6); opacity: 0.6; }
+  50%  { filter: brightness(0.9); opacity: 0.7; }
+  60%  { filter: brightness(0.5); opacity: 0.5; }
+  70%  { filter: brightness(0.3); opacity: 0.3; }
+  80%  { filter: brightness(0.2); opacity: 0.2; }
+  90%  { filter: brightness(0.1); opacity: 0.1; }
+  100% { filter: brightness(0); opacity: 0; }
 }
+
+.flicker-violent {
+  animation: flicker-dying 15s forwards ease-in;
+}
+
 
 /* Start splash logo screen
 --------------------------
