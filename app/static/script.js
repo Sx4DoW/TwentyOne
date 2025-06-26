@@ -241,6 +241,7 @@ function isDying(){
 function changeBet(delta) {
   let updatedBet = Math.max(0, Math.min(getBet() + delta, maxbet));
   setBet(updatedBet);
+  isDying();
   updateBet();
 }
 
