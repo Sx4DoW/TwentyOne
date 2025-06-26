@@ -15,6 +15,7 @@ let timeLeft = 30 * 1000;
 let activePlayer = startingPlayer;
 let interval;
 let timerRunning = false;
+let firstStartOfTimer = true;
 
 window.onload = function() {
   tickSpacing = getTickSpacing();
@@ -100,15 +101,17 @@ function showFogFor(player) {
   fog.style.opacity = '1'; // trigger fade-in over 30s
 }
 function startTurn(player, resume = false) {
+  firstStartOfTimer = false;
   cancelAnimationFrame(interval);
   activePlayer = player;
   //showFogFor(activePlayer);
 
   const start = performance.now();
   lastTimestamp = start;
-  if (!resume) {
+  if (!resume || firstStartOfTimer) {
     timeLeft = player === "left" ? left_timer * 1000 : right_timer * 1000;
-  }
+  }start;
+  //console.log("Current player: ", player, "\nCurrent timer: ", timeLeft, "\nLeft timer: ", left_timer, "RightTimer: ", right_timer);
   interval = requestAnimationFrame(function tick(now) {
     const elapsed = now - lastTimestamp;
     lastTimestamp = now;
@@ -155,7 +158,7 @@ function resetTimers(){
   getLeftTimer().style.color = "white";
   getRightTimer().style.color = "white";
   timeLeft = startingPlayer === "left" ? left_timer * 1000 : right_timer * 1000; // Reset for next session
-  document.body.classList.replace("flicker-violent", "flicker-chill");
+  //document.body.classList.replace("flicker-violent", "flicker-chill");
 }
 
 document.addEventListener("keydown", function (e) {
